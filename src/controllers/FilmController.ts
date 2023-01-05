@@ -71,4 +71,14 @@ export class FilmController {
             return res.status(500).json({ message: 'Internal Server Error'})
         }
     }
+
+    async list(req: Request, res: Response){
+        try {
+            const film = await filmRepository.find();
+            return res.json(film)         
+        } catch (error){
+            console.log(error);
+            return res.status(500).json({ message: 'Internal Server Error'})
+        }
+    }
 }
