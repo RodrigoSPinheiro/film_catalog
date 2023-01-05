@@ -30,4 +30,26 @@ export class FilmController {
             return res.status(500).json ({ message: 'Internal Server Error'})
         }
     }
+
+    async update(req: Request, res: Response){
+        const {id} = req.params;
+        const {title, author, description} = req.body;
+
+        try {
+                const film = filmRepository.findOneBy({ id: Number(id) })
+
+                if(!film){
+                    return res.status(404).json({ message: 'O filme não existe'})
+                }
+
+                await filmRepository.update(id, { 
+                    title, author, description
+                })
+
+                return res.status(200).json({ message: 'Filme atualizado com sucesso!' })                
+        } catch (error){
+            console.log(error);
+            return res.status(500).json({ message: 'Internal Server Error'})
+        }
+    }
 }
