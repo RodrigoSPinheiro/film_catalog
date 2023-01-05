@@ -52,4 +52,23 @@ export class FilmController {
             return res.status(500).json({ message: 'Internal Server Error'})
         }
     }
+
+    async delete(req: Request, res: Response){
+        const {id} = req.params;
+
+        try {
+                const film = filmRepository.findOneBy({ id: Number(id) })
+
+                if(!film){
+                    return res.status(404).json({ message: 'O filme não existe'})
+                }
+
+                await filmRepository.delete(id)
+
+                return res.status(200).json({ message: 'Filme excluido com sucesso!' })                
+        } catch (error){
+            console.log(error);
+            return res.status(500).json({ message: 'Internal Server Error'})
+        }
+    }
 }
